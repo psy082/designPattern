@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CodeSpitz75-1</title>
+</head>
+
+<body>
+  <section id="data"></section>
+  <script>
+    const Table = (_ => {
+      const Private = Symbol();
+      return class {
+        constructor(parent) {
+          if (typeof parent != 'string' || !parent) throw "invalid param";
+          this[Private] = { parent };
+        }
+        // load(url) {
+        //   fetch(url).then(response => response.json()).then(_ => this.render());
+        // }
+        async load(url) {
+          const response = await fetch(url)
+          if(!response.ok) throw "invalid response";
+          const {title, header, items} = await reponse.json();
+          if(!items.length) throw "no items";
+          Object.assign(this[Private], {title, header, items})
+          this.render();
+        }
+        render() {
+          // 부모, 데이터 체크
+          const {parent, items} = this[Private];
+          const parentEl = document.querySelector(parent);
+          if(!parentEl) throw "invalid parent Element";
+          if(! items || items.length) {
+            parentEl.innerHTML = "no data";
+            return;
+          } else parent.innerHTML = "";
+
+          // table 생성
+          // title을 caption으로
+          const table = document.createElement("table");
+          const caption = document.createElement("caption");
+          caption.innerHTML = title;
+          table.appendChild(caption);
+          // header를 thead로
+          table.appendChild(
+            header.reduce((thead, data)=> {
+              const th = document.createElement("th");
+              th.innerHTML = data;
+              thead.appendChild(th);
+              return thead;
+            }, document.createElement("thead"))
+          );
+          // items를 tr로
+          // 부모에 table 삽입
+          table.appendChild(...items.map(
+            item=>item.reduce((tr, data)=>{
+              const td = document.createElement("td");
+              td.innerHTML = data;
+              tr.appendChild(td);
+              return tr
+            }, document.createElement('tr'))
+          ));
+          parentEl.appendChild(table);
+        }
+      };
+    })();
+    const table = new Table('#data');
+    table.load("75_1.json");
+  </script>
+</body>
+
+</html>
