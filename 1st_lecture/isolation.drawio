@@ -1,0 +1,67 @@
+<mxfile>
+    <diagram id="hjJLSn08QKDZF_iIxZ8o" name="Page-1">
+        <mxGraphModel dx="1131" dy="567" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="DATA SUPPLY" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#3333FF;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="60" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3" target="4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="RENDERER" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF8000;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="200" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="NATIVE BIND&lt;br&gt;(TABLE)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF8000;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="290" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="3" target="2">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="180" as="sourcePoint"/>
+                        <mxPoint x="210" y="130" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="160" y="160"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="4" target="3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="250" as="sourcePoint"/>
+                        <mxPoint x="159.5" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" value="RENDERING" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#FF8000;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="450" y="50" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="NATIVE BIND&lt;br&gt;(TABLE)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF8000;" vertex="1" parent="1">
+                    <mxGeometry x="430" y="150" width="160" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="510" y="150" as="sourcePoint"/>
+                        <mxPoint x="509.5" y="90" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="509.5" y="150"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" value="Renderer가 어떤 역할을 하는 지 명확하게 구분해 보자, Renderer의 역할을 명확하게 분리할 때에, Native Bind를 분리할 수 있다.&lt;br&gt;&lt;br&gt;renderer에서 table에 관련된 지식은 전부 다, dom에 관련된 지식이다. (native 지식)&lt;br&gt;renderer와 native의 역할을 분리해야지만 코드를 분리할 수 있다.&amp;nbsp;&lt;br&gt;&lt;br&gt;renderer: data supplier에게서 data를 공급 받아서 그림을 그리자&lt;br&gt;까지가 renderer의 역할&amp;nbsp;&lt;br&gt;&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="650" y="20" width="710" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="RENDERER&lt;br&gt;RENDER(DATA)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="55" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="endArrow=classic;html=1;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="350" y="160" as="sourcePoint"/>
+                        <mxPoint x="350" y="85" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" value="CONCRETE&lt;br&gt;RENDERER" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="1">
+                    <mxGeometry x="310" y="160" width="80" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

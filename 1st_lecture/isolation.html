@@ -9,13 +9,56 @@
 <body>
   <section id="data"></section>
   <script>
-    
-    const loader = new Loader("75_1.json"); // 생성자에서 인자를 받는 다는 것은 일회성 객체라는 뜻
-    loader.load(json=>{                     // 일반적으로 비동기 객체들은 동기성의 위험, 참조 시점의 위험이 있기 때문에 일회성으로 만든다.
-      const renderer = new Renderer();      
-      renderer.setData(json);
-      renderer.render();
-    })
+    const Info = class {
+      constructor(json) {
+        const {title, header, items} = json;
+        if(typeof title != 'string' || !title) throw 'Invalid title';
+        if(!Array.isArray(header) || !header.length) throw 'Invalid header';
+        if(!Array.isArray(items) || !items.length) throw 'Invalid items';
+        this._private = {title, header, items};
+      }
+
+      get title(){return this._private.title;}                  // data는 Info를 준다고 명시한 적인 없는데, getData의 반환 값은 Info 객체이다. 여전히 의존 문제가 남아있다.
+      get header(){return this._private.header;}                // 값을 형으로 변경했을 뿐이다. 따라서 Data 객체가 Info 객체를 반환하는 것을 명시해야지만 문제가 해결된다. 
+      get items(){return this._private.items;}
+    };
+
+    const Data = class {
+      async getData(){throw "getData must override"};           // 역할은 계약 관계. 해당 객체를 사용하는 측에서는 구체적인 객체가 어떤지 관심이 없다.
+    };                                                          // 관심이 있는 것은 부모 객체에게 받기로 한 형태대로 값이 반환되는가?
+
+    const JsonData = class extends Data{
+      constructor(data) {
+        super();
+        this._data = data;
+      }
+      async getData() {
+        if(typeof this._data == 'string') {
+          const response = await fetch(this._data);
+          return await response.json();                         // Data 객체의 getData에는 json 객체가 반환된다는 것을 설명하지 않는데, 받는 쪽에서는 어떻게 json 데이터를 받을 것이라고 생각할 수 있는가?
+        } else return new Info(json);                               // Data type을 받는 것이지 json 타입을 받는 것이 아니다.
+      }                                                         // 따라서 추론으로 json을 받는 것이 아니라 type을 정해서 받아야 한다.
+    } 
+
+    const Renderer = class {
+      constructor(){}
+      async render(data) {
+        if(!(data instanceof Data)) throw "Invalid data type";
+        const json = await data.getData();                      // 호출되는 함수가 async면 호출한 함수도 async여야 한다. -> async
+        console.log(json);                                      // async의 장점은 동기, 비동기 로직 전부 다를 반환받을 수 있다는 것
+      }                                                         // await는 반환되는 값이 비동기일 수도 있다는 marking의 역할을 한다.
+    }                                                           // 실제 로직에서는 동기로직처럼 짜고 marking만 해두면 되는 것.
+
+    // renderer를 사용해보니 실제로 loader라는 이름의 객체가 관심이 있는 역할은 renderer에게 data를 공급해주는 것이었다. load보다는 supply에 관심이 있다.
+    // const loader = new Loader("75_1.json"); // 생성자에서 인자를 받는 다는 것은 일회성 객체라는 뜻
+    // loader.load(json=>{                     // 일반적으로 비동기 객체들은 동기성의 위험, 참조 시점의 위험이 있기 때문에 일회성으로 만든다.
+    //   const renderer = new Renderer();      // json data는 primitive 값에 가까운 raw data이다. 객체인데도 값처럼 취급받고 있다. but 검증된 data가 아니다.
+    //   renderer.setData(json);               // 값을 검증하지 않으면 항상 위험한 값.
+    //   renderer.render();                    // 값을 직접 검증하지 않고, type 혹은 object에게 책임을 넘기는 방식으로 사용하는 언어가 강타입 언어
+    // })                                      // 즉 값의 검증에 있어서 책임을 type에게 두고 개발하지 않으면 강타입 언어를 사용하는 의미가 X
+    const data = new JsonData("75_1.json");     // data를 가공하는 역할은 전부 JsonData의 역할
+    const renderer = new Renderer();
+    renderer.render(data);
   </script>
 </body>
 

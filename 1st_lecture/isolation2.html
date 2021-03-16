@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>CodeSpitz75-1</title>
+</head>
+
+<body>
+  <section id="data"></section>
+  <script>
+    const Info = class {
+      constructor(json) {
+        const {title, header, items} = json;
+        if(typeof title != 'string' || !title) throw 'Invalid title';
+        if(!Array.isArray(header) || !header.length) throw 'Invalid header';
+        if(!Array.isArray(items) || !items.length) throw 'Invalid items';
+        this._private = {title, header, items};
+      }
+
+      get title(){return this._private.title;}                  
+      get header(){return this._private.header;}                
+      get items(){return this._private.items;}
+    };
+
+    const Data = class {                                // 이제 _getData가 data의 메소드가 되서, Info가 반환되는 것을 보장하고, 
+      async getData(){
+          const json = await this._getData();
+          return new Info(json);
+      };                                                // 구상 클래스들은 override하지 않고, _getData만 제공하는 역할로 역할을 줄인다.           
+      async _getData(){
+          throw "_getData must override";               // 이제 더 이상 renderer의 코드는 모순되지 않는다. data형만 얻으면 Info 객체를 얻는 것이 확정 된다.
+      }                                                 // 그러면 어떻게 Info 객체를 얻는가? 
+    };                                                 
+
+    const JsonData = class extends Data{                // 역할을 권한과 책임이라는 양쪽 면을 가진다. 권한과 책임이 동일해야 한다. 
+      constructor(data) {
+        super();
+        this._data = data;
+      }
+      async _getData() {
+        if(typeof this._data == 'string') {
+          const response = await fetch(this._data);
+          return await response.json();                         
+        } else return new Info(json);                           
+      }                                                        
+    } 
+
+    const Renderer = class {
+      constructor(){}
+      async render(data) {
+        if(!(data instanceof Data)) throw "Invalid data type";
+        this._info = await data.getData();                      
+        this._render();                                   
+      }                
+      _render(){
+          throw "_render must overrided";
+      }                                        
+    }      
+
+    const TableRenderer = class extends Renderer {
+        constructor(parent){
+            if(typeof parent != "string" || !parent) throw "invalid param";
+            super();
+            this._parent = parent;
+        }
+        _render(){
+            const parent = document.querySelector(this._parent);
+            if(!parent) throw "invalid parent";
+            parent.innerHTML = "";
+            const [title, header, items] = this._info;
+            const [table, caption, thead] = "table,caption,thead".split(",").map(v=>document.createElement(v));
+            caption.innerHTML = title;
+            table.appendChild(...[
+                caption,
+                header.reduce((_, v)=>(thead.appendChild(document.createElement("th")).innerHTML = v, thead)),
+                ...items.map(item=>item.reduce(
+                    (tr, v) => (tr.appendChild(document.createElement("td")).innerHTML = n, tr),
+                    document.createElement("tr")
+                ))
+            ]);
+            parent.appendChild(table);
+        }
+    }
+
+    const renderer = new Renderer();
+    renderer.render(data);
+  </script>
+</body>
+
+</html>
