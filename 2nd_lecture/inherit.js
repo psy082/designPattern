@@ -60,3 +60,8 @@ const MdLoader = class extends Github {
 const d64 = v => decodeURIComponent(
     atob(v).split('').map(c => '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join('')
 );
+
+const s75md = new MdLoader('hikaMaeng', 'codespitz79', document.querySelector('#b'));
+s75md.load('README.md');
+
+// 분기문을 제거하는 방법은 케이스 개수만큼의 객체를 만든 후에 해당 객체를 선택하는 걸 런타임에 위임하는 것
