@@ -2,7 +2,7 @@ const Github = class {                                          // 정의 시점
   constructor(id, repo) {
       this._base = `https://api.github.com/repos/${id}/${repo}/contents/`;
   }
-  load(path) {                                                // 공통 부분 - Template Method
+  load(path) {                                                // 공통 부분 
       const id = 'callback' + Github._id++;
       const f = Github[id] = ({data:{content}}) => {
           delete Github[id];
