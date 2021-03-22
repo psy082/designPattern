@@ -28,3 +28,5 @@ CS에서는 LOOP를 두가지 경우로 나눈다. Iteration, Recursion
 알고리즘 전개에 따른 반복 Recursion -> Composite, Visitor Pattern
 재귀함수를 포함해서, 순환 재귀함수들
 실행하는 코드 몸체가 계속 변화되면서 반복이 진행된다.
+
+컴포지트 패턴을 비롯해서, 
