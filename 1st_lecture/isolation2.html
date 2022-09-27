@@ -39,10 +39,11 @@
         this._data = data;
       }
       async _getData() {
+        let json;
         if(typeof this._data == 'string') {
           const response = await fetch(this._data);
-          return await response.json();                         
-        } else return new Info(json);                           
+          return response.json();                         
+        } else return this._data;                       
       }                                                        
     } 
 
@@ -75,7 +76,7 @@
                 caption,
                 header.reduce((_, v)=>(thead.appendChild(document.createElement("th")).innerHTML = v, thead)),
                 ...items.map(item=>item.reduce(
-                    (tr, v) => (tr.appendChild(document.createElement("td")).innerHTML = n, tr),
+                    (tr, v) => (tr.appendChild(document.createElement("td")).innerHTML = v, tr),
                     document.createElement("tr")
                 ))
             ]);

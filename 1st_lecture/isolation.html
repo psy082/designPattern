@@ -59,6 +59,20 @@
     const data = new JsonData("75_1.json");     // data를 가공하는 역할은 전부 JsonData의 역할
     const renderer = new Renderer();
     renderer.render(data);
+
+    const makeSureIsNumber = x => {
+      const result = parseFloat(x);
+      if(isNull(result)) throw Error("Not a number");
+      return result;
+    }
+    const read = input => {
+      try {
+        const n = makeSureIsNumber(input);
+        // in this branch of code, n is for sure number
+        // otherwise, we would get into a different branch of code
+        // makeSureIsNumber "proof" that n is number 
+      } catch(e) {}
+    }
   </script>
 </body>
 

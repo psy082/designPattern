@@ -1,0 +1,9 @@
+{
+  "name": "designPattern",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/psy082/designPattern.git",
+  "author": "dhkim <dhkim@crscube.co.kr>",
+  "license": "MIT"
+}

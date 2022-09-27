@@ -28,7 +28,7 @@ const ImageLoader = class extends Github {                      // 실행 시점
         this._target = target;
     }
     _loaded(v) {                                                // 위임 구현
-        this._taraget.src = 'data:text/plain;base64,' + v;
+        this._target.src = 'data:text/plain;base64,' + v;
     };                                              
 }
 
