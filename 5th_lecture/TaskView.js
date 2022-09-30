@@ -41,3 +41,26 @@ export const Member = class extends TaskView {
     return this.result.replace(this._reg, '<a href="member/$1">$1</a>');
   }
 };
+
+export const Remove = class extends TaskView {
+  // 권한을 위반하고 있기 때문에 잠재적으로 버그가 확정되어 있다.
+  // 무조건 망가진다.
+  // 권한을 축소하려면 어떻게 해야 하는가?
+  constructor(render) {
+    super();
+    this._render = render;
+  }
+  _task(parent, task) {
+    const id = Remove.id++;
+    Remove[id] = (_) => {
+      delete Remove[id];
+      parent.remove(task);
+      // this._render(); // 권한이 넘어가는 일을 준 것이다.
+      // 물어보지 말고 그냥 말을 해(할리우드 원칙 -> 옵저버 패턴)
+      // subject가 권한이 적은 애여야 한다.
+      // 권한이 많은 애가 observer여야 한다.
+    };
+    return this.result + `<a onclick="Remove[${id}]()`;
+  }
+};
+Remove.id = 0;

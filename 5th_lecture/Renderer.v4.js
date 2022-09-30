@@ -47,6 +47,8 @@ Renderer.Processor = class {
   task(v, task) {
     throw "override";
   }
+  // 부모가 제공해주는 sevice인 taskRender를 받아서
+  // 미리 설정된 decorator의 혜택을 받을 수 있다.
   taskRender(task) {
     // 너는 나한테 묻지말고 taskRender만 호출해
     return this._tv.task(this.prop.ptask, task);
@@ -72,8 +74,7 @@ export const Dom = class extends Renderer.Processor {
   }
   task(task) {
     const li = el("li", { innerHTML: this.taskRender(task) });
-    // 부모가 제공해주는 sevice인 taskRender를 받아서
-    // 미리 설정된 decorator의 혜택을 받을 수 있다.
+    // 그런데 li 객체 생성에 있어서
     this.prop.parent.appendChild(li);
     this.prop.parent = li;
   }
